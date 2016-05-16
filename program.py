@@ -4,6 +4,7 @@ from image_client import ImageDrawClient
 import time
 import ConfigParser
 from ast import literal_eval as make_tuple
+from csv_client import CsvClient
 
 
 def current_path(filename):
@@ -33,6 +34,12 @@ def get_font(config):
     return font
 
 
+def get_data(config):
+    cc = CsvClient(config.get('csv', 'filename'))
+    data = cc.read()
+    return data
+
+
 def write_text(draw_tool, marker, font, text, image):
     pos_x = marker[0]
     pos_y = marker[1]
@@ -53,8 +60,13 @@ def run_image_maker(image_path):
 
     markers = get_markers(config)
     font = get_font(config)
-    text = "Text"
+    data = get_data(config)
 
+    # Link markers to columns in rows in data
+
+
+    # Put following loop into seperate function
+    text = "Text"
     for marker, marker_pos in markers.iteritems():
         im = write_text(draw_tool, marker_pos, font, text, im)
 

@@ -1,0 +1,19 @@
+{
+  "windows": [
+    {
+      "panes": [
+        "pane", 
+        "pane", 
+        "pane"
+      ], 
+      "start_directory": "/home/pete/Desktop/JSS/code", 
+      "layout": "93ca,213x58,0,0{106x58,0,0,1,106x58,107,0[106x33,107,0,2,106x24,107,34,3]}", 
+      "focus": "true", 
+      "window_name": "bash", 
+      "options": {
+        "automatic-rename": "off"
+      }
+    }
+  ], 
+  "session_name": "0"
+}
