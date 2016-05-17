@@ -20,10 +20,11 @@ def load_cfg(config_file):
 
 def get_markers(config):
     markers = {}
-    markers['school'] = make_tuple(config.get('markers', 'school'))
-    markers['year'] = make_tuple(config.get('markers', 'year'))
-    markers['award'] = make_tuple(config.get('markers', 'award'))
-    markers['recipient'] = make_tuple(config.get('markers', 'recipient'))
+    markers['school'] = config.getint('markers', 'school')
+    markers['year'] = config.getint('markers', 'year')
+    markers['level'] = config.getint('markers', 'level') 
+    markers['award'] = config.getint('markers', 'award')
+    markers['recipient'] = config.getint('markers', 'recipient')
     return markers
 
 
@@ -41,11 +42,8 @@ def get_data(config):
     return data
 
 
-def write_text(draw_tool, marker, font, text, image):
-    pos_x = marker[0]
-    pos_y = marker[1]
-
-    image = draw_tool.write_text_on_image(image, pos_x, pos_y, text, font)
+def write_text(draw_tool, height, font, text, image):
+    image = draw_tool.write_text_on_image(image, height, text, font)
     return image
 
 
@@ -85,24 +83,28 @@ def run_image_maker(image_path):
 
     count = 0
     images = []
+    
+    print len(data)
 
     for row in data:
         im = draw_tool.open_image(image_path)
         im = write_text(draw_tool, markers['school'], font, school, im)
         im = write_text(draw_tool, markers['year'], font, year, im)
-        im = write_text(draw_tool, markers['award'], font, row['Award'] + ' ' + row['Level'], im)
+        im = write_text(draw_tool, markers['level'], font, row['Level'], im)
+        im = write_text(draw_tool, markers['award'], font, row['Award'], im)
         im = write_text(draw_tool, markers['recipient'], font, row['Recipient'], im)
         save_file = save_image(draw_tool, im, output_folder)
         count += 1
         images.append(save_file)
-        if count % 6 == 0:
+        if count % 4 == 0:
             create_new_pdf(pdf_folder, images)
             count = 0
             images = []
     
     # catch stragglers (will replace later ;] )
-    images.append(images[3])
-    images.append(images[3])
+    images.append(images[0])
+    images.append(images[0])
+    images.append(images[0])
     create_new_pdf(pdf_folder, images)
 
 

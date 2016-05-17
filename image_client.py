@@ -21,7 +21,7 @@ class ImageDrawClient():
         im.rotate(degrees)
         return im
 
-    def write_text_on_image(self, im, x, y, text, font):
+    def write_text_on_image(self, im, height, text, font):
         draw = ImageDraw.Draw(im)
 
         # use a bitmap font
@@ -30,8 +30,10 @@ class ImageDrawClient():
 
         # using a truetype font
         # raise Exception(font['name'], font['size'])
-        open_font = ImageFont.truetype(font['name'], font['size'])
+        font_txt = ImageFont.truetype(font['name'], font['size'])
 
-        draw.text((x, y), text, font=open_font, fill=(0,0,0))
+        w, h = draw.textsize(text, font=font_txt)
+        W = im.width
+        draw.text(((W - w) / 2, height), text, font=font_txt, fill=(42, 60, 123))
         return im
 
