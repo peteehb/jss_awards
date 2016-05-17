@@ -77,7 +77,7 @@ def run_image_maker(image_path):
     font = get_font(config)
     data = get_data(config)
 
-    school = 'John Scottus'
+    school = 'John Scottus School'
     year = '2016'
 
     output_folder = create_output_folder('output')
@@ -97,10 +97,12 @@ def run_image_maker(image_path):
         images.append(save_file)
         if count % 6 == 0:
             create_new_pdf(pdf_folder, images)
-            count == 0
-            images == []
+            count = 0
+            images = []
     
     # catch stragglers (will replace later ;] )
+    images.append(images[3])
+    images.append(images[3])
     create_new_pdf(pdf_folder, images)
 
 
