@@ -16,10 +16,12 @@ def load_cfg(config_file):
 class CsvClient(object):
     def __init__(self, filename):
         self.csv_file = open(current_path(filename), 'rb')
+        self.data = []
 
     def read(self):
         self.reader = DictReader(self.csv_file)
-        data = []
         for row in self.reader:
-            data.append(row)
-        return data
+            if not all(v is '' for k,v in row.iteritems()):
+                self.data.append(row)
+        return self.data
+
