@@ -14,4 +14,3 @@ class CsvReader(object):
                 if not all(v is '' for k, v in row.iteritems()):
                     data.append(row)
         return data
-

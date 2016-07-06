@@ -1,5 +1,6 @@
 from unittest import TestCase
 from pdf_writer import PdfBuilder
+from reportlab.platypus import SimpleDocTemplate
 
 
 class TestPdfWriter(TestCase):
@@ -8,6 +9,7 @@ class TestPdfWriter(TestCase):
         pdf_writer = PdfBuilder(filename)
         self.assertIsNotNone(pdf_writer)
         self.assertIsNotNone(pdf_writer.writer)
+        self.assertIsInstance(pdf_writer.writer, SimpleDocTemplate)
 
     def test_add_image(self):
         filename = 'test_pdf'
