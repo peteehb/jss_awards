@@ -1,7 +1,7 @@
 *.pyc
 /.idea
-/src/output_*
-/src/pdf_*
+/src/images_*
+/src/pdfs_*
 
 
 # Unit tests / coverage reports

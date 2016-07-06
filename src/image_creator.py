@@ -1,7 +1,7 @@
 from PIL import ImageFont, ImageDraw, Image
 
 
-class ImageCreator(object):
+class ImageWriter(object):
     def __init__(self, font):
         self.font = font
 

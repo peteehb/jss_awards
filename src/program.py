@@ -1,41 +1,13 @@
-from image_creator import ImageCreator
+from image_creator import ImageWriter
 from csv_reader import CsvReader
-from pdf_writer import PdfWriter
+from pdf_writer import PdfBuilder
 
 import utils
 
 
-def get_markers(config):
-    markers = {'school': config.getint('markers', 'school'),
-               'year': config.getint('markers', 'year'),
-               'level': config.getint('markers', 'level'),
-               'award': config.getint('markers', 'award'),
-               'recipient': config.getint('markers', 'recipient')}
-    return markers
-
-
-def get_font(config):
-    font = {'color': config.get('font', 'color'),
-            'name': config.get('font', 'name'),
-            'size': config.getint('font', 'size')}
-    return font
-
-
-def get_csv_data(config):
-    cc = CsvReader(config.get('csv', 'filename'))
-    data = cc.read()
-    return data
-
-
-def save_image(draw_tool, image, folder):
-    image_out_path = folder + '/' + 'image_' + utils.timestamp() + '.png'
-    draw_tool.save_image(image, image_out_path)
-    return image_out_path
-
-
 def create_new_pdf(folder, images):
     filename = folder + '/' + 'pdf_' + utils.timestamp() + '.pdf'
-    pdf_creator = PdfWriter(filename)
+    pdf_creator = PdfBuilder(filename)
     for image in images:
         pdf_creator.add_image(image, 687, 809)
     pdf_creator.images_on_pdf()
@@ -44,42 +16,55 @@ def create_new_pdf(folder, images):
 
 def run():
     config = utils.load_cfg('conf.cfg')
-    image_path = config.get('image', 'filename')
+    template_path = config.get('image', 'filename')
 
-    markers = get_markers(config)
-    font = get_font(config)
-    data = get_csv_data(config)
+    markers = {'school': config.getint('markers', 'school'),
+               'year': config.getint('markers', 'year'),
+               'level': config.getint('markers', 'level'),
+               'award': config.getint('markers', 'award'),
+               'recipient': config.getint('markers', 'recipient')}
+
+    font = {'color': config.get('font', 'color'),
+            'name': config.get('font', 'name'),
+            'size': config.getint('font', 'size')}
+
+    images_per_pdf = config.getint('pdf', 'images_per_pdf')
+    if images_per_pdf > 6:
+        # 6 is the maximum allowed number of images per pdf
+        exit()
+
+    csv_file = config.get('csv', 'filename')
+    cc = CsvReader(csv_file)
+    csv_data = cc.read()
 
     school = 'John Scottus School'
     year = '2016'
 
-    output_folder = utils.create_folder('output')
-    pdf_folder = utils.create_folder('pdf')
+    image_folder = utils.create_folder('images')
+    pdf_folder = utils.create_folder('pdfs')
 
     count = 0
     images = []
 
-    draw_tool = ImageCreator(font)
+    draw_tool = ImageWriter(font)
 
-    for row in data:
-        im = draw_tool.open_image(image_path)
+    for row in csv_data:
+        im = draw_tool.open_image(template_path)
         im = draw_tool.write_text(im, markers['school'], school)
         im = draw_tool.write_text(im, markers['year'], year)
         im = draw_tool.write_text(im, markers['level'], row['Level'])
         im = draw_tool.write_text(im, markers['award'], row['Award'])
         im = draw_tool.write_text(im, markers['recipient'], row['Recipient'])
-        save_file = save_image(draw_tool, im, output_folder)
+        im_path = image_folder + '/' + 'image_' + utils.timestamp() + '.png'
+        draw_tool.save_image(im, im_path)
         count += 1
-        images.append(save_file)
-        if count % 4 == 0:
+        images.append(im_path)
+
+        if count % images_per_pdf == 0:
             create_new_pdf(pdf_folder, images)
             count = 0
             images = []
 
-    # catch stragglers (need to make this a bit cleverer)
-    images.append(images[0])
-    images.append(images[0])
-    images.append(images[0])
     create_new_pdf(pdf_folder, images)
 
 
