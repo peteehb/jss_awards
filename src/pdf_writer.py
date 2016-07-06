@@ -15,13 +15,11 @@ class PdfWriter(object):
     def add_image(self, image, x, y):
         im = Image(image, x, y)
         self.images.append(im)
-        # self.elements.append(im)
 
    
     def images_on_pdf(self):
         data = [[self.images[0], self.images[1]],
                 [self.images[2], self.images[3]]]
-
         t = Table(data,738,920)
         self.elements.append(t)
 
