@@ -1,2 +1,4 @@
 *.pyc
 /.idea
+/src/output_*
+/src/pdf_*

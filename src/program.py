@@ -33,13 +33,13 @@ def write_text(draw_tool, height, font, text, image):
 
 
 def save_image(draw_tool, image, folder):
-    image_out_path = folder + '/' + 'image_' + utils.timestamp + '.png'
+    image_out_path = folder + '/' + 'image_' + utils.timestamp() + '.png'
     draw_tool.save_image(image, image_out_path)
     return image_out_path
 
 
 def create_new_pdf(folder, images):
-    filename = folder + '/' + 'pdf_' + utils.timestamp + '.pdf'
+    filename = folder + '/' + 'pdf_' + utils.timestamp() + '.pdf'
     pdf_creator = PdfWriter(filename)
     for image in images:
         pdf_creator.add_image(image, 687, 809)
