@@ -2,6 +2,9 @@ from PIL import ImageFont, ImageDraw, Image
 
 
 class ImageCreator(object):
+    def __init__(self, font):
+        self.font = font
+
     def open_image(self, path):
         im = Image.open(path)
         return im
@@ -16,9 +19,9 @@ class ImageCreator(object):
         im.rotate(degrees)
         return im
 
-    def write_text_on_image(self, im, height, text, font):
+    def write_text(self, im, height, text):
         draw = ImageDraw.Draw(im)
-        font_txt = ImageFont.truetype(font['name'], font['size'])
+        font_txt = ImageFont.truetype(self.font['name'], self.font['size'])
         w, h = draw.textsize(text, font=font_txt)
         W = im.width
         draw.text(((W - w) / 2, height), text, font=font_txt,

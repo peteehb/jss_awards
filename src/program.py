@@ -27,11 +27,6 @@ def get_csv_data(config):
     return data
 
 
-def write_text(draw_tool, height, font, text, image):
-    image = draw_tool.write_text_on_image(image, height, text, font)
-    return image
-
-
 def save_image(draw_tool, image, folder):
     image_out_path = folder + '/' + 'image_' + utils.timestamp() + '.png'
     draw_tool.save_image(image, image_out_path)
@@ -64,16 +59,15 @@ def run():
     count = 0
     images = []
 
-    draw_tool = ImageCreator()
+    draw_tool = ImageCreator(font)
 
     for row in data:
         im = draw_tool.open_image(image_path)
-        im = write_text(draw_tool, markers['school'], font, school, im)
-        im = write_text(draw_tool, markers['year'], font, year, im)
-        im = write_text(draw_tool, markers['level'], font, row['Level'], im)
-        im = write_text(draw_tool, markers['award'], font, row['Award'], im)
-        im = write_text(draw_tool, markers['recipient'], font,
-                        row['Recipient'], im)
+        im = draw_tool.write_text(im, markers['school'], school)
+        im = draw_tool.write_text(im, markers['year'], year)
+        im = draw_tool.write_text(im, markers['level'], row['Level'])
+        im = draw_tool.write_text(im, markers['award'], row['Award'])
+        im = draw_tool.write_text(im, markers['recipient'], row['Recipient'])
         save_file = save_image(draw_tool, im, output_folder)
         count += 1
         images.append(save_file)
@@ -82,7 +76,7 @@ def run():
             count = 0
             images = []
 
-    # catch stragglers (will replace later ;] )
+    # catch stragglers (need to make this a bit cleverer)
     images.append(images[0])
     images.append(images[0])
     images.append(images[0])

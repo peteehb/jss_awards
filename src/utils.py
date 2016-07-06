@@ -21,3 +21,15 @@ def create_folder(folder):
     output_folder = folder + '_' + str(int(time.time()))
     os.makedirs(output_folder)
     return os.path.abspath(output_folder)
+
+
+def zip_output():
+    """
+    Zip the pdfs into one file
+    :return:
+    """
+    return
+
+
+def clean_up():
+    return
