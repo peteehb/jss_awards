@@ -1,10 +1,10 @@
 from unittest import TestCase
-from Mock import Mock, patch
+from pdf_writer import PdfWriter
+
 
 class TestPdfWriter(TestCase):
     def test_create_pdf_writer(self):
-        self.assertTrue()
-
-    def test_add_image_to_pdf(self):
-        self.assertTrue()
+        filename = 'test_pdf'
+        pdf_writer = PdfWriter(filename)
+        self.assertIsNotNone(pdf_writer)
 
