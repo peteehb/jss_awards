@@ -8,7 +8,7 @@ class CsvReader(object):
 
     def read(self):
         data = []
-        with open(utils.current_path(self.filename), 'rb') as f:
+        with open(utils.path_to(self.filename), 'rb') as f:
             reader = DictReader(f)
             for row in reader:
                 if not all(v is '' for k, v in row.iteritems()):

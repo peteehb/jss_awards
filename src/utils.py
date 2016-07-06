@@ -3,13 +3,13 @@ import time
 import ConfigParser
 
 
-def current_path(filename):
+def path_to(filename):
     return os.getcwd() + '/' + filename
 
 
 def load_cfg(config_file):
     config = ConfigParser.ConfigParser()
-    config.readfp(open(current_path(config_file)))
+    config.readfp(open(path_to(config_file)))
     return config
 
 
