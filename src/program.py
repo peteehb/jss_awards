@@ -1,11 +1,11 @@
-from image_creator import ImageWriter
+from image_writer import ImageWriter
 from csv_reader import CsvReader
-from pdf_writer import PdfBuilder
+from pdf_builder import PdfBuilder
 
 import utils
 
 
-def create_new_pdf(folder, images):
+def create_pdf(folder, images):
     filename = folder + '/' + 'pdf_' + utils.timestamp() + '.pdf'
     pdf_creator = PdfBuilder(filename)
     for image in images:
@@ -61,11 +61,11 @@ def run():
         images.append(im_path)
 
         if count % images_per_pdf == 0:
-            create_new_pdf(pdf_folder, images)
+            create_pdf(pdf_folder, images)
             count = 0
             images = []
 
-    create_new_pdf(pdf_folder, images)
+    create_pdf(pdf_folder, images)
 
 
 if __name__ == '__main__':

@@ -16,7 +16,6 @@ class TestUtils(TestCase):
         folder_path = utils.create_folder('test/test_folder')
         expected_folder_path = str(os.getcwd()) + '/test/test_folder'
         self.assertEquals(folder_path, expected_folder_path)
-        os.removedirs(folder_path)
 
     def test_zip_output(self):
         pass

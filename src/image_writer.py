@@ -10,10 +10,12 @@ class ImageWriter(object):
         return im
 
     def save_image(self, im, path):
+        # Improve exception handling
         try:
             im.save(path)
         except Exception, e:
             print e
+
 
     def rotate_image(self, im, degrees):
         im.rotate(degrees)
